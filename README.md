@@ -7,7 +7,7 @@ The goal of this repository is to document my journey from writing basic queries
 ---
 
 ## 🛠️ Tech Stack
-* **Database Engine:** Microsoft SQL Server
+* **Database Engine:** [Microsoft SQL Server](https://www.microsoft.com/en-us/sql-server/)
 * **Management Tool:** [DBeaver Community Edition](https://dbeaver.io/)
 * **Language:** T-SQL (Transact-SQL)
 
@@ -21,7 +21,6 @@ This semester, I am focusing on the following core areas:
 * **Programmability:** Writing Stored Procedures, Functions, and Triggers.
 * **Optimization:** Understanding execution plans and basic indexing.
 
-<!--
 ---
 
 ## 📁 Repository Structure
@@ -30,6 +29,7 @@ The scripts are organized by topic to make navigation easy:
 | Folder | Description |
 | :--- | :--- |
 | `/Basics` | Data types, simple SELECT statements, and filtering. |
+<!--
 | `/Joins` | Inner, Left, Right, and Full Outer joins. |
 | `/Aggregations` | GROUP BY, HAVING, and aggregate functions. |
 | `/Advanced` | CTEs, Window Functions, and Procedures. |
