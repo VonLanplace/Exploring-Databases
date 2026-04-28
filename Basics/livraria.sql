@@ -37,10 +37,10 @@ CREATE	TABLE	autor(
 	data_nasc	DATE			NOT	NULL,
 	pais_nasc	VARCHAR(50)		NOT NULL 
 		CHECK(
-			(pais_nasc = 'Brasil')
-			OR	(pais_nasc = 'Estados Unidos')
-			OR	(pais_nasc = 'Inglaterra')	
-			OR	(pais_nasc = 'Alemanha')
+			(UPPER(pais_nasc) = 'BRASIL')
+			OR	(UPPER(pais_nasc) = 'ESTADOS UNIDOS')
+			OR	(UPPER(pais_nasc) = 'INGLATERRA')	
+			OR	(UPPER(pais_nasc) = 'ALEMANHA')
 		)
 	,
 	biografia	VARCHAR(255)	NOT NULL,
