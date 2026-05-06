@@ -28,13 +28,10 @@ The scripts are organized by topic to make navigation easy:
 
 | Folder | Description |
 | :--- | :--- |
-| `/Basics` | Data types, simple SELECT statements, and filtering. |
-<!--
-| `/Joins` | Inner, Left, Right, and Full Outer joins. |
-| `/Aggregations` | GROUP BY, HAVING, and aggregate functions. |
-| `/Advanced` | CTEs, Window Functions, and Procedures. |
-| `/Projects` | Larger, end-to-end database design scripts. |
---->
+| `/Basics` | Fundamental syntax, environment setup, and introduction to database objects. |
+| `/Constraints` | Rules for data integrity, including PRIMARY KEY, FOREIGN KEY, and UNIQUE constraints. |
+| `/Select_Simples` | Basic data retrieval techniques using SELECT, FROM, and elementary filtering. |
+
 
 ---
 
