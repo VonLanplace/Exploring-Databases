@@ -1,6 +1,9 @@
 USE master
 
+DROP DATABASE IF EXISTS revisao1;
+GO
 CREATE DATABASE revisao1;
+GO
 
 USE revisao1;
 
@@ -90,13 +93,3 @@ WHERE
 	nome LIKE 'Banco de Dados I'
 	AND 
 	turno LIKE 'Noite';
-
-
-
-
-
-
-
-
-
-
