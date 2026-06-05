@@ -1,0 +1,158 @@
+USE master;
+
+DROP DATABASE IF EXISTS revisao4;
+GO;
+
+CREATE DATABASE revisao4;
+GO;
+
+USE revisao4;
+GO;
+
+CREATE TABLE Cliente(
+	CPF			VARCHAR(13)	PRIMARY KEY,
+	Nome		VARCHAR(50),
+	Telefone 	VARCHAR(15)
+);
+GO;
+
+INSERT INTO Cliente		
+(CPF,			Nome,				Telefone)
+VALUES
+('34578909290',	'Julio Cesar',		82736541),
+('25186533710',	'Maria Antonia',	87652314),
+('87627315416',	'Luiz Carlos',		61289012),
+('79182639800',	'Paulo Cesar',		90765273);
+
+
+CREATE TABLE Fornecedor(
+	ID 			BIGINT		PRIMARY KEY,
+	Nome		VARCHAR(50),
+	Logradouro	VARCHAR(30),
+	Num			INT,
+	Complemento	VARCHAR(30),
+	Cidade		VARCHAR(50)
+);
+GO;
+
+INSERT INTO Fornecedor
+(ID,	Nome,			Logradouro,				Num,	Complemento,	Cidade)
+VALUES
+(1,		'LG	Rod.',		'Bandeirantes',			70000,	'Km 70',		'Itapeva'),
+(2,		'Asus',			'Av. Nações Unidas',	10206,	'Sala 225',		'São Paulo'),
+(3,		'AMD',			'Av. Nações Unidas',	10206,	'Sala 1095',	'São Paulo'),
+(4,		'Leadership',	'Av. Nações Unidas',	10206,	'Sala 87',		'São Paulo'),
+(5,		'Inno',			'Av. Nações Unidas',	10206,	'Sala 34',		'São Paulo');
+
+
+CREATE TABLE Produto(
+	Codigo		INT	PRIMARY KEY,
+	Descricao	VARCHAR(50),
+	Fornecedor	BIGINT	NOT NULL,
+	Preco		NUMERIC(7,2),
+	FOREIGN KEY (Fornecedor) REFERENCES Fornecedor(ID)
+);
+GO;
+
+INSERT INTO Produto			
+(Codigo,	Descricao,												Fornecedor,	Preco)
+VALUES
+(1,			'Monitor 19 pol.',										1,			449.99),
+(2,			'Netbook 1GB Ram 4 Gb HD',								2,			699.99),
+(3,			'Gravador de DVD - Sata',								1,			99.99),
+(4,			'Leitor de CD',											1,			49.99),
+(5,			'Processador - Phenom X3 - 2.1GHz',						3,			349.99),
+(6,			'Mouse',												4,			19.99),
+(7,			'Teclado',												4,			25.99),
+(8,			'Placa de Video - Nvidia 9800 GTX - 256MB/256 bits',	5,			599.99);
+
+
+CREATE TABLE Venda(
+	Codigo 		INT,
+	Produto		INT,
+	Cliente		VARCHAR(13),
+	Quantidade	INT,
+	Dia		DATE,
+	PRIMARY KEY (Codigo, Produto, Cliente, Dia),
+	FOREIGN KEY (Cliente) REFERENCES Cliente(CPF),
+	FOREIGN KEY (Produto) REFERENCES Produto(Codigo)
+);
+GO;
+
+INSERT INTO Venda
+(Codigo,	Produto,	Cliente,		Quantidade,	Dia)
+VALUES
+(1,			1,			'25186533710',	1,			'2020-3-9'),
+(1,			4,			'25186533710',	1,			'2020-3-9'),
+(1,			5,			'25186533710',	1,			'2020-3-9'),
+(2,			6,			'79182639800',	4,			'2020-6-9'),
+(3,			8,			'87627315416',	1,			'2020-6-9'),
+(3,			3,			'87627315416',	1,			'2020-6-9'),
+(3,			7,			'87627315416',	1,			'2020-6-9'),
+(4,			2,			'34578909290',	2,			'2020-8-9');
+
+--Consultar no formato dd/mm/aaaa:
+--Data da Venda 4
+SELECT CONVERT(VARCHAR, ven.Dia, 103)
+FROM Venda ven
+WHERE Codigo = 4;
+
+--Inserir na tabela Fornecedor, a coluna Telefone e os seguintes dados:
+--1	7216-5371
+--2	8715-3738
+--4	3654-6289
+ALTER TABLE Fornecedor
+ADD Telefone VARCHAR(13);
+
+UPDATE Fornecedor
+SET Telefone = '7216-5371'
+WHERE ID = 1;
+
+UPDATE Fornecedor
+SET Telefone = '8715-3738'
+WHERE ID = 2;
+
+UPDATE Fornecedor
+SET Telefone = '3654-6289'
+WHERE ID = 4;
+
+--Consultar por ordem alfabética de nome, 
+-- o nome, o enderço concatenado e o telefone de todos os fornecedores
+SELECT 
+	Nome,
+	Logradouro + ', ' +
+	CAST(Num AS VARCHAR(13)) +'; ' +
+	Complemento + '. ' +
+	Cidade AS endereco,
+	ISNULL(Telefone, 'Não Informado') AS Telefone
+FROM Fornecedor;
+
+--Consultar:
+--Produto, quantidade e valor total do comprado por Julio Cesar
+SELECT 
+	pro.Descricao, 
+	ven.Quantidade,
+	SUM(pro.Preco * ven.Quantidade)
+FROM Venda ven
+INNER JOIN Produto pro ON pro.Codigo = ven.Produto
+INNER JOIN Cliente cli ON cli.CPF = ven.Cliente
+WHERE cli.Nome LIKE '%Julio Cesar%'
+GROUP BY pro.Descricao, ven.Quantidade;
+
+--Data, no formato dd/mm/aaaa e valor total do produto comprado por  Paulo Cesar
+SELECT 
+	CONVERT(VARCHAR, ven.Dia, 103) AS dia,
+	SUM(pro.Preco * ven.Quantidade)
+FROM Venda ven
+INNER JOIN Produto pro ON pro.Codigo = ven.Produto
+INNER JOIN Cliente cli ON cli.CPF = ven.Cliente
+WHERE cli.Nome LIKE '%Paulo Cesar%'
+GROUP BY ven.Dia;
+
+--Consultar, em ordem decrescente, o nome e o preço de todos os produtos. 
+--O preço dos produtos já deve sair com R$ antes do valor 
+SELECT
+	pro.Descricao,
+	'R$ ' + CAST(pro.Preco AS VARCHAR(10)) AS Preco
+FROM Produto pro
+ORDER BY pro.Preco DESC;
