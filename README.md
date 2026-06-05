@@ -55,5 +55,3 @@ The scripts are organized by topic to make navigation easy. Here is how the proj
 * *Current Student - Learning SQL Server*
 
 > "The goal is to turn data into information, and information into insight." – Carly Fiorina
-
-```
