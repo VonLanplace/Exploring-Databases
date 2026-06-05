@@ -1,0 +1,132 @@
+USE master;
+GO
+
+DROP DATABASE IF EXISTS revisao2;
+GO
+CREATE DATABASE revisao2;
+GO
+
+USE revisao1;
+GO
+
+CREATE TABLE carro(
+	Placa	VARCHAR(7)	PRIMARY KEY,
+	Marca	VARCHAR(20),
+	Modelo	VARCHAR(20),
+	Cor		VARCHAR(20),
+	Ano		INT
+)
+GO
+
+INSERT INTO carro
+(Placa,		Marca,		Modelo,		Cor,		Ano)
+VALUES
+('AFT9087',	'VW',		'Gol',		'Preto',	2007),
+('DXO9876',	'Ford',		'Ka',		'Azul',		2000),
+('EGT4631',	'Renault',	'Clio',		'Verde',	2004),
+('LKM7380',	'Fiat',		'Palio',	'Prata',	1997),
+('BCD7521',	'Ford',		'Fiesta',	'Preto',	1999)
+
+CREATE TABLE pecas(
+	Codigo	INT			PRIMARY KEY,
+	Nome	VARCHAR(50),
+	Valor	INT
+)
+GO
+
+INSERT INTO pecas
+(Codigo,	Nome,				Valor)
+VALUES
+(1,			'Vela',				70),
+(2,			'Correia Dentada',	125),
+(3,			'Trambulador',		90),
+(4,			'Filtro de Ar',		30)
+
+CREATE TABLE cliente(
+	Nome VARCHAR(20),
+	Logradouro VARCHAR(30),
+	Num INT,
+	Bairro VARCHAR(20),
+	Telefone VARCHAR(13),
+	Carro	VARCHAR(7)	NOT NULL,
+	FOREIGN KEY (Carro) REFERENCES carro(Placa)
+)
+GO
+
+INSERT INTO cliente
+(Nome,				Logradouro,				Num,	Bairro,				Telefone,		Carro)
+VALUES
+('João Alves',		'R. Pereira Barreto',	1258,	'Jd. Oliveiras',	'2154-9658',	'DXO9876'),
+('Ana Maria',		'R. 7 de Setembro',		259,	'Centro',			'9658-8541',	'LKM7380'),
+('Clara Oliveira',	'Av. Nações Unidas',	10254,	'Pinheiros',		'2458-9658',	'EGT4631'),
+('José Simões',		'R. XV de Novembro',	36,		'Água Branca',		'7895-2459',	'BCD7521'),
+('Paula Rocha',		'R. Anhaia',			548,	'Barra Funda',		'6958-2548',	'AFT9087');
+
+CREATE TABLE servico(
+	Carro		VARCHAR(7),
+	Peca		INT,
+	Quantidade	INT,
+	Valor		INT,
+	Data		DATE,
+	PRIMARY KEY (Carro, Peca, Data),
+	FOREIGN KEY (Carro)	REFERENCES	carro(Placa),
+	FOREIGN KEY	(Peca)	REFERENCES	pecas(Codigo)
+)
+GO
+
+INSERT INTO servico
+(Carro,		Peca,	Quantidade,	Valor,	Data)
+VALUES
+('DXO9876',	1,		4,			280,	'2020-08-01'),
+('DXO9876',	4,		1,			30,		'2020-08-01'),
+('EGT4631',	3,		1,			90,		'2020-08-02'),
+('DXO9876',	2,		1,			125,	'2020-08-07')
+GO
+			
+--Consultar em Subqueries				
+--Telefone do dono do carro Ka, Azul
+SELECT cli.telefone
+FROM cliente cli
+WHERE cli.Carro IN (
+	SELECT car.Placa
+	FROM carro car
+	WHERE car.Modelo = 'Ka' 
+	AND car.Cor = 'Azul'
+);
+
+--Endereço concatenado do cliente que fez o serviço do dia 2020-08-02				
+SELECT 
+	cli.Logradouro + ', ' + 
+	CAST(cli.Num AS VARCHAR(13)) + '. ' +
+	cli.Bairro	AS endereco
+FROM cliente cli
+WHERE cli.Carro IN (
+	SELECT car.Placa
+	FROM carro car
+	WHERE car.Placa IN (
+		SELECT ser.Carro
+		FROM servico ser
+		WHERE ser.Data = '2020-08-02'
+	)
+);
+
+--Consultar:				
+--Placas dos carros de anos anteriores a 2001				
+SELECT car.Placa
+FROM carro car
+WHERE car.Ano < 2001;
+
+--Marca, modelo e cor, concatenado dos carros posteriores a 2005
+SELECT
+	car.Marca + ', ' +
+	car.Modelo + ' - ' +
+	car.Cor AS Dados_Carro
+FROM carro car
+WHERE car.Ano > 2005
+
+--Código e nome das peças que custam menos de R$80,00
+SELECT
+	pec.Codigo,
+	pec.Nome
+FROM pecas pec
+WHERE pec.Valor < 80.00;
