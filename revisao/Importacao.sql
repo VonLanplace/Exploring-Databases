@@ -1,11 +1,11 @@
 USE master;
 
-DROP DATABASE IF EXISTS revisao6;
+DROP DATABASE IF EXISTS revisao7;
 
-CREATE DATABASE revisao6;
+CREATE DATABASE revisao7;
 
 
-USE revisao6;
+USE revisao7;
 
 CREATE TABLE Cliente(
 	RG			VARCHAR(13)	PRIMARY KEY,
