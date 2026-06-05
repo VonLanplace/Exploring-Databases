@@ -24,31 +24,36 @@ This semester, I am focusing on the following core areas:
 ---
 
 ## 📁 Repository Structure
-The scripts are organized by topic to make navigation easy:
+The scripts are organized by topic to make navigation easy. Here is how the project is structured:
 
-| Folder | Description |
-| :--- | :--- |
-| `/Basics` | Fundamental syntax, environment setup, and introduction to database objects. |
-| `/Constraints` | Rules for data integrity, including PRIMARY KEY, FOREIGN KEY, and UNIQUE constraints. |
-| `/Select_Simples` | Basic data retrieval techniques using SELECT, FROM, and elementary filtering. |
-
+| Folder | Description | Key Files / Topics Included |
+| :--- | :--- | :--- |
+| `📂 /Basics` | Fundamental syntax and introduction to CRUD operations. | `FirstCRUD.sql`, `livraria.sql` |
+| `📂 /Constraints` | Rules for data integrity (Primary Keys, Foreign Keys, Checks). | `maternidade.sql`, `mecanica.sql` |
+| `📂 /revisao` | A large collection of review exercises covering various scenarios. | `Hospital.sql`, `Farmacia.sql`, `MechaMart.sql`, etc. |
+| `📂 /Selects_Simples` | Basic data retrieval techniques using filtering and ordering. | `locadora.sql`, `projects.sql` |
+| `📂 /Selects_with_Join` | Queries that combine data from two or more tables based on related columns. | `locadora.sql`, `Projects.sql` |
+| `📂 /Selects with Subquerry` | Advanced queries nested inside a larger query. | `locadora.sql`, `Projects.sql` |
 
 ---
 
 ## 🚀 How to Use These Scripts
-1.  **Clone the Repo:** 
-    ```bash
-    git clone https://github.com/your-username/Exploring-Databases.git
-    ```
-2.  **Environment:** Ensure you have **SQL Server Express** or **Developer Edition** installed.
-3.  **Execution:** Open the `.sql` files in **SSMS**, connect to your local instance, and execute the scripts.
+1. **Clone the Repo:** 
+```bash
+   git clone [https://github.com/your-username/Exploring-Databases.git](https://github.com/your-username/Exploring-Databases.git)
+
+```
+
+2. **Environment:** Ensure you have **SQL Server Express** or **Developer Edition** installed and running.
+3. **Execution:** Open the `.sql` files in **DBeaver** (or your preferred IDE), connect to your local database instance, and execute the scripts.
 
 ---
 
 ## ✍️ Author
+
 * **Lucas Sartorelli**
 * *Current Student - Learning SQL Server*
 
 > "The goal is to turn data into information, and information into insight." – Carly Fiorina
 
----
+```
